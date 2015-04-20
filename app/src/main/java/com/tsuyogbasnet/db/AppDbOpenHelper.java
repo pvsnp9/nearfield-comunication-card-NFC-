@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.security.PrivateKey;
+
 /**
  * Created by tsuyogbasnet on 1/04/15.
  */
@@ -12,8 +14,9 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 
     private static final String LOGTAG = "SQLITEDB";
 
-    private static final String DATABASE_NAME = "tours.db";
+    private static final String DATABASE_NAME = "arc.db";
     private static final int DATABASE_VERSION = 1;
+
 
     public static final String TABLE_TOURS = "tours";
     public static final String COLUMN_ID = "tourId";
@@ -30,6 +33,13 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
                     COLUMN_IMAGE + " TEXT, " +
                     COLUMN_PRICE + " NUMERIC " +
                     ")";
+    private static final String CREATE_TUTOR_TABLE =
+            "CREATE TABLE" +"TUTOR" + "(" + "tutorId"+ "TEXT PRIMARY KEY," +
+                    "firstName"+ "TEXT,"+
+                    "LastName"+"TEXT,"+
+                    "cellNumber"+"TEXT,"+
+                    "email"+"TEXT,";
+    private static final String CREATE="";//write SQl command her to create table.
 
 
     //String name, SQLiteDatabase.CursorFactory factory, int version :: THESE ARE taken out from parameter because
