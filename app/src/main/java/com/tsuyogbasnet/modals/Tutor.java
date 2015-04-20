@@ -1,4 +1,4 @@
-package modals;
+package com.tsuyogbasnet.modals;
 
 /**
  * Created by tsuyogbasnet on 20/04/15.
