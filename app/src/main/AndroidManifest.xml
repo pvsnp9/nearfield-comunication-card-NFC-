@@ -16,6 +16,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ManualLogIn"
+            android:label="Manual LogIn">
+            <intent-filter>
+                <action android:name="com.tsuyogbasnet.arc.ManualLogIn"/>
+                <category android:name="android.intent.category.default"/>
+            </intent-filter>
+            </activity>
+        <activity android:name=".CollectRegister"
+            android:label="Collect Register">
+            <intent-filter>
+                <action android:name="com.tsuyogbasnet.arc.CollectRegister"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>
