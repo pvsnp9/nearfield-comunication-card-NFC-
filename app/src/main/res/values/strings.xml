@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="logIn">Manual LgIn</string>
+    <string name="continueCollection">Contd. Registration</string>
+    <string name="manualRegistration">Manual Registration</string>
+    <string name="upload">End and Upload</string>
 </resources>
