@@ -20,6 +20,11 @@ public class MainActivity extends ActionBarActivity {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // nfcAdapter.enableForegroundDispatch(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

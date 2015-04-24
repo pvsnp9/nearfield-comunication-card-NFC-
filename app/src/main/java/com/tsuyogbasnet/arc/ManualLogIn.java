@@ -13,6 +13,7 @@ public class ManualLogIn extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_manual_login);
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(logIn);
@@ -23,7 +24,7 @@ public class ManualLogIn extends ActionBarActivity {
     View.OnClickListener logIn = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(ManualLogIn.this, CollectRegister.class);
+            Intent intent = new Intent(ManualLogIn.this, SetupVariables.class);
             startActivity(intent);
         }
     };

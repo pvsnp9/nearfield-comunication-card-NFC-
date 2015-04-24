@@ -35,6 +35,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             </activity>
+        <activity android:name=".SetupVariables"
+            android:label="Setup Variables">
+            <intent-filter>
+                <action android:name="com.tsuyogbasnet.arc.SetupVariables"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

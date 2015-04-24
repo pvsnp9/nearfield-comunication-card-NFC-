@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Setup Registration"
+        android:id="@+id/textView5"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnCodeCourse"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:spinnerMode="dropdown"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittxtSubjectCode"
+        android:layout_below="@+id/spnCodeCourse"
+        android:layout_alignLeft="@+id/spnCodeCourse"
+        android:layout_alignStart="@+id/spnCodeCourse"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:hint="Subject Code"
+        android:layout_alignRight="@+id/spnCodeCourse"
+        android:layout_alignEnd="@+id/spnCodeCourse" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittxtWeek"
+        android:layout_below="@+id/edittxtSubjectCode"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:hint="Week "
+        android:layout_alignRight="@+id/edittxtSubjectCode"
+        android:layout_alignEnd="@+id/edittxtSubjectCode" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Registration"
+        android:id="@+id/btnStartRegistration"
+        android:layout_below="@+id/edittxtWeek"
+        android:layout_alignRight="@+id/edittxtSubjectCode"
+        android:layout_alignEnd="@+id/edittxtSubjectCode"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>
