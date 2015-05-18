@@ -37,7 +37,8 @@
         android:layout_marginTop="20dp"
         android:hint="Subject Code"
         android:layout_alignRight="@+id/spnCodeCourse"
-        android:layout_alignEnd="@+id/spnCodeCourse" />
+        android:layout_alignEnd="@+id/spnCodeCourse"
+        android:inputType="textCapCharacters"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,17 +51,38 @@
         android:layout_marginLeft="5dp"
         android:hint="Room Number"
         android:layout_alignRight="@+id/edittxtSubjectCode"
-        android:layout_alignEnd="@+id/edittxtSubjectCode" />
+        android:layout_alignEnd="@+id/edittxtSubjectCode"
+        android:inputType="textCapCharacters" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Registration"
         android:id="@+id/btnStartRegistration"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/edittxtRoomNumber"
+        android:onClick="startRegistration"
+        android:layout_below="@+id/rdLab"
         android:layout_alignRight="@+id/spnCodeCourse"
-        android:layout_alignEnd="@+id/spnCodeCourse"
-        android:onClick="startRegistration"/>
+        android:layout_alignEnd="@+id/spnCodeCourse" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lectures"
+        android:id="@+id/rdLectures"
+        android:layout_below="@+id/edittxtRoomNumber"
+        android:layout_alignLeft="@+id/edittxtSubjectCode"
+        android:layout_alignStart="@+id/edittxtSubjectCode"
+        android:layout_marginTop="20dp"
+        android:checked="false" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lab"
+        android:id="@+id/rdLab"
+        android:checked="false"
+        android:layout_below="@+id/rdLectures"
+        android:layout_alignLeft="@+id/rdLectures"
+        android:layout_alignStart="@+id/rdLectures" />
 
 </RelativeLayout>

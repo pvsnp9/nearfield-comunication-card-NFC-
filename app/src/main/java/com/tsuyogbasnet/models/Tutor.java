@@ -1,14 +1,14 @@
-package com.tsuyogbasnet.modals;
+package com.tsuyogbasnet.models;
 
 /**
  * Created by tsuyogbasnet on 20/04/15.
  */
 public class Tutor {
-    private String tutorId;
-    private String tutorFirstName;
-    private String tutorLastName;
-    private String tutorCell;
-    private String tutorEmail;
+    private static String tutorId;
+    private static String tutorFirstName;
+    private static String tutorLastName;
+    private static String tutorCell;
+    private static String tutorEmail;
 
 
     public void setTutorId(String tutorId){this.tutorId=tutorId;}

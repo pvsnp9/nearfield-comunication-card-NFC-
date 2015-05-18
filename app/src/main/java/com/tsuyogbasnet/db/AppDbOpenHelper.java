@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.security.PrivateKey;
+import java.util.Date;
 
 /**
  * Created by tsuyogbasnet on 1/04/15.
@@ -35,12 +36,15 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
                     COLUMN_TUTOR_CELL + " TEXT " +
                     COLUMN_TUTOR_EMAIL +"TEXT" +
                     ")";
-    private static final String CREATE_TUTOR_TABLE =
-            "CREATE TABLE" +"TUTOR" + "(" + "tutorId"+ "TEXT PRIMARY KEY," +
-                    "firstName"+ "TEXT,"+
-                    "LastName"+"TEXT,"+
-                    "cellNumber"+"TEXT,"+
-                    "email"+"TEXT,";
+    private static final String CREATE_ATTENDANCE_TABLE =
+            "CREATE TABLE" +"ATTENDANCE" + "(" + "attendanceId"+ "TEXT PRIMARY KEY AUTOINCREMENT," +
+                    "studentId"+ "TEXT,"+
+                    "tutorId"+ "TEXT,"+
+                    "programmeCode"+"TEXT,"+
+                    "subjectCode"+"TEXT,"+
+                    "roomCode"+"TEXT,"+
+                    "date" + "TEXT,"+
+                    "type" +"TEXT";
     private static final String CREATE="";//write SQl command her to create table.
 
 

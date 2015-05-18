@@ -42,6 +42,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             </activity>
+        <activity android:name=".ManualRegistration"
+            android:label="Manual Registration">
+            <intent-filter>
+                <action android:name="com.tsuyogbasnet.arc.ManualRegistration"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
