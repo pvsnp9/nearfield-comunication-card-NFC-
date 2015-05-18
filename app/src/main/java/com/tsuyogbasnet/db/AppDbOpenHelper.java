@@ -18,20 +18,22 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
 
-    public static final String TABLE_TOURS = "tours";
-    public static final String COLUMN_ID = "tourId";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_DESC = "description";
-    public static final String COLUMN_PRICE = "price";
-    public static final String COLUMN_IMAGE = "image";
+    public static final String TABLE_ARC = "tours";
+    public static final String COLUMN_ID = "dataId";
+    public static final String COLUMN_TUTOR_ID = "tutorId";
+    public static final String COLUMN_FIRST_NAME = "tutorFirstName";
+    public static final String COLUMN_LAST_NAME = "tutorLastName";
+    public static final String COLUMN_TUTOR_CELL = "tutorCell";
+    public static final String COLUMN_TUTOR_EMAIL= "tutorEmail";
 
     private static final String TABLE_CREATE =
-            "CREATE TABLE " + TABLE_TOURS + " (" +
+            "CREATE TABLE " + TABLE_ARC + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TITLE + " TEXT, " +
-                    COLUMN_DESC + " TEXT, " +
-                    COLUMN_IMAGE + " TEXT, " +
-                    COLUMN_PRICE + " NUMERIC " +
+                    COLUMN_TUTOR_ID + " TEXT, " +
+                    COLUMN_FIRST_NAME + " TEXT, " +
+                    COLUMN_LAST_NAME + " TEXT, " +
+                    COLUMN_TUTOR_CELL + " TEXT " +
+                    COLUMN_TUTOR_EMAIL +"TEXT" +
                     ")";
     private static final String CREATE_TUTOR_TABLE =
             "CREATE TABLE" +"TUTOR" + "(" + "tutorId"+ "TEXT PRIMARY KEY," +
@@ -57,7 +59,7 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_TOURS);
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_ARC);
         onCreate(db);
     }
 }

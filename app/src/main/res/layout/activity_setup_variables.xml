@@ -22,6 +22,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:dropDownWidth="match_parent"
         android:spinnerMode="dropdown"/>
 
     <EditText
@@ -41,14 +42,13 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/edittxtWeek"
+        android:id="@+id/edittxtRoomNumber"
         android:layout_below="@+id/edittxtSubjectCode"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_alignLeft="@+id/edittxtSubjectCode"
+        android:layout_alignStart="@+id/edittxtSubjectCode"
         android:layout_marginTop="20dp"
-        android:hint="Week "
+        android:layout_marginLeft="5dp"
+        android:hint="Room Number"
         android:layout_alignRight="@+id/edittxtSubjectCode"
         android:layout_alignEnd="@+id/edittxtSubjectCode" />
 
@@ -57,10 +57,10 @@
         android:layout_height="wrap_content"
         android:text="Start Registration"
         android:id="@+id/btnStartRegistration"
-        android:layout_below="@+id/edittxtWeek"
-        android:layout_alignRight="@+id/edittxtSubjectCode"
-        android:layout_alignEnd="@+id/edittxtSubjectCode"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/edittxtRoomNumber"
+        android:layout_alignRight="@+id/spnCodeCourse"
+        android:layout_alignEnd="@+id/spnCodeCourse"
+        android:onClick="startRegistration"/>
 
 </RelativeLayout>

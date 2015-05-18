@@ -17,10 +17,11 @@ public class AppDataSource {
 
     public String[] allColumns = {
             AppDbOpenHelper.COLUMN_ID,
-            AppDbOpenHelper.COLUMN_TITLE,
-            AppDbOpenHelper.COLUMN_DESC,
-            AppDbOpenHelper.COLUMN_PRICE,
-            AppDbOpenHelper.COLUMN_IMAGE
+            AppDbOpenHelper.COLUMN_TUTOR_ID,
+            AppDbOpenHelper.COLUMN_FIRST_NAME,
+            AppDbOpenHelper.COLUMN_LAST_NAME,
+            AppDbOpenHelper.COLUMN_TUTOR_CELL,
+            AppDbOpenHelper.COLUMN_TUTOR_EMAIL
     };
 
     public AppDataSource(Context context){
