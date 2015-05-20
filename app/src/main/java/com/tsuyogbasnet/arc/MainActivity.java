@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.tsuyogbasnet.db.AppDataSource;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -24,6 +26,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
        // nfcAdapter.enableForegroundDispatch(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

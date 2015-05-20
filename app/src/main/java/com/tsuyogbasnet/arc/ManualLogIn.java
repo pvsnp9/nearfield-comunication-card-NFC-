@@ -6,10 +6,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.tsuyogbasnet.Utils.UIHelper;
+
 /**
  * Created by tsuyogbasnet on 22/04/15.
  */
 public class ManualLogIn extends ActionBarActivity {
+    public static String tutorId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,7 @@ public class ManualLogIn extends ActionBarActivity {
     View.OnClickListener logIn = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
+            makeTutorId();
             Intent intent = new Intent(ManualLogIn.this, SetupVariables.class);
             startActivity(intent);
         }
@@ -35,6 +39,9 @@ public class ManualLogIn extends ActionBarActivity {
             startActivity(intent);
         }
     };
+    private void makeTutorId(){
+        tutorId= UIHelper.getText(this,R.id.editTxtId);
+    }
 
 
 

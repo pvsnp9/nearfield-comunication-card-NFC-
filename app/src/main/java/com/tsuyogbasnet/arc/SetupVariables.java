@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.tsuyogbasnet.Utils.UIHelper;
 
@@ -33,8 +34,10 @@ public class SetupVariables extends ActionBarActivity {
     public static String subjectCode;
     public static String roomCode;
     public static String date;
+    public static String type;
 
     Spinner spinner;
+    ToggleButton tglbtn;
 
     public static final String TAG = "DATE";
     @Override
@@ -45,6 +48,8 @@ public class SetupVariables extends ActionBarActivity {
        // EditText subjectCode = (EditText) findViewById(edittxtSubjectCode);
         Button btnStartReg = (Button) findViewById(R.id.btnStartRegistration);
         //btnStartReg.setOnClickListener(collectRegister);
+        tglbtn = (ToggleButton) findViewById(R.id.toggleButton);
+        tglbtn.setOnClickListener(tglChange);
 
         //preparing drop down
         spinner = (Spinner)findViewById(R.id.spnCodeCourse);
@@ -57,6 +62,7 @@ public class SetupVariables extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, items);
         spinner.setAdapter(adapter);
     }
+
     public void startRegistration(View v){
         programmeCode = spinner.getSelectedItem().toString();
         subjectCode = UIHelper.getText(this, R.id.edittxtSubjectCode);
@@ -64,14 +70,26 @@ public class SetupVariables extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         date = dateFormat.format(calendar.getTime());
-        Log.i(TAG, programmeCode);
         if (!subjectCode.equals("") && !roomCode.equals("") && !programmeCode.equals("----- Please Choose Course Code -----")){
+            //Log.i(TAG,type);
             startActivity(new Intent(SetupVariables.this, CollectRegister.class));
         }
         else {
             Toast.makeText(this,"Please setup variables for registration",Toast.LENGTH_LONG).show();
+
         }
     }
+    View.OnClickListener tglChange = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            if (tglbtn.isChecked()){
+                type = "LECTURE";
+            }else {
+                type = "LAB";
+            }
+        }
+    };
    // public void onItemSelected(AdapterView<?>stringAdapterView,)
 
 //    View.OnClickListener collectRegister = new View.OnClickListener() {

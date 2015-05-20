@@ -5,6 +5,7 @@ package com.tsuyogbasnet.models;
  * Created by tsuyogbasnet on 18/05/15.
  */
 public class Attendance {
+    private long attendanceId;
     private String studentId;
     private String tutorId;
     private String programmeCode;
@@ -13,6 +14,7 @@ public class Attendance {
     private String date;
     private String type;
 
+    public void setAttendanceId(long id){this.attendanceId=id;}
     public void setStudentId(String studentId){this.studentId=studentId;}
     public void setTutorId(String tutorId){this.tutorId=tutorId;}
     public void setProgrammeCode(String programmeCode){this.programmeCode=programmeCode;}
@@ -21,6 +23,7 @@ public class Attendance {
     public void setDate(String date){this.date=date;}
     public void setType(String type){this.type=type;}
 
+    public long getAttendanceId(){return attendanceId;}
     public String getStudentId(){return this.studentId;}
     public String getTutorId(){return this.tutorId;}
     public String getProgrammeCode(){return this.programmeCode;}

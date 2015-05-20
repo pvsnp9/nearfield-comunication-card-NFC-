@@ -53,6 +53,17 @@
         android:layout_alignRight="@+id/edittxtSubjectCode"
         android:layout_alignEnd="@+id/edittxtSubjectCode"
         android:inputType="textCapCharacters" />
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/toggleButton"
+        android:layout_below="@+id/edittxtRoomNumber"
+        android:layout_alignLeft="@+id/edittxtSubjectCode"
+        android:layout_alignStart="@+id/edittxtSubjectCode"
+        android:layout_marginTop="20dp"
+        android:textOn="Lecture"
+        android:textOff="Lab"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -60,29 +71,10 @@
         android:text="Start Registration"
         android:id="@+id/btnStartRegistration"
         android:onClick="startRegistration"
-        android:layout_below="@+id/rdLab"
+        android:layout_alignTop="@+id/toggleButton"
         android:layout_alignRight="@+id/spnCodeCourse"
         android:layout_alignEnd="@+id/spnCodeCourse" />
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lectures"
-        android:id="@+id/rdLectures"
-        android:layout_below="@+id/edittxtRoomNumber"
-        android:layout_alignLeft="@+id/edittxtSubjectCode"
-        android:layout_alignStart="@+id/edittxtSubjectCode"
-        android:layout_marginTop="20dp"
-        android:checked="false" />
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lab"
-        android:id="@+id/rdLab"
-        android:checked="false"
-        android:layout_below="@+id/rdLectures"
-        android:layout_alignLeft="@+id/rdLectures"
-        android:layout_alignStart="@+id/rdLectures" />
 
 </RelativeLayout>

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/edittxtStudentId"
         android:layout_below="@+id/textView6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/btnRegister"
-        android:layout_below="@+id/editText"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
+        android:layout_below="@+id/edittxtStudentId"
+        android:layout_alignRight="@+id/edittxtStudentId"
+        android:layout_alignEnd="@+id/edittxtStudentId"
         android:layout_marginTop="30dp"
         android:onClick="manualRegistration"/>
 

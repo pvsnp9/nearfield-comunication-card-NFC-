@@ -1,9 +1,12 @@
 package com.tsuyogbasnet.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.tsuyogbasnet.models.Attendance;
 
 import java.security.PrivateKey;
 import java.util.Date;
@@ -19,34 +22,26 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
 
-    public static final String TABLE_ARC = "tours";
-    public static final String COLUMN_ID = "dataId";
+    public static final String TABLE_ARC = "attendance";
+    public static final String COLUMN_ID = "attendanceId";
+    public static final String COLUMN_STUDENT_ID = "studentId";
     public static final String COLUMN_TUTOR_ID = "tutorId";
-    public static final String COLUMN_FIRST_NAME = "tutorFirstName";
-    public static final String COLUMN_LAST_NAME = "tutorLastName";
-    public static final String COLUMN_TUTOR_CELL = "tutorCell";
-    public static final String COLUMN_TUTOR_EMAIL= "tutorEmail";
+    public static final String COLUMN_PROGRAMME_CODE = "programmeCode";
+    public static final String COLUMN_SUBJECT_CODE = "subjectCode";
+    public static final String COLUMN_ROOM_CODE= "roomCode";
+    public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_TYPE="type";
 
-    private static final String TABLE_CREATE =
-            "CREATE TABLE " + TABLE_ARC + " (" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TUTOR_ID + " TEXT, " +
-                    COLUMN_FIRST_NAME + " TEXT, " +
-                    COLUMN_LAST_NAME + " TEXT, " +
-                    COLUMN_TUTOR_CELL + " TEXT " +
-                    COLUMN_TUTOR_EMAIL +"TEXT" +
-                    ")";
     private static final String CREATE_ATTENDANCE_TABLE =
-            "CREATE TABLE" +"ATTENDANCE" + "(" + "attendanceId"+ "TEXT PRIMARY KEY AUTOINCREMENT," +
-                    "studentId"+ "TEXT,"+
-                    "tutorId"+ "TEXT,"+
-                    "programmeCode"+"TEXT,"+
-                    "subjectCode"+"TEXT,"+
-                    "roomCode"+"TEXT,"+
-                    "date" + "TEXT,"+
-                    "type" +"TEXT";
-    private static final String CREATE="";//write SQl command her to create table.
-
+            "CREATE TABLE " +TABLE_ARC + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    COLUMN_STUDENT_ID + " TEXT,"+
+                    COLUMN_TUTOR_ID + " TEXT,"+
+                    COLUMN_PROGRAMME_CODE +" TEXT,"+
+                    COLUMN_SUBJECT_CODE +" TEXT,"+
+                    COLUMN_ROOM_CODE +" TEXT,"+
+                    COLUMN_DATE + " TEXT,"+
+                    COLUMN_TYPE +" TEXT" +
+                    ")";
 
     //String name, SQLiteDatabase.CursorFactory factory, int version :: THESE ARE taken out from parameter because
     //these are defined inside this class as a CONST
@@ -57,13 +52,13 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //executing command to create a table in app, receiving db instance.
-        db.execSQL(TABLE_CREATE);
+        db.execSQL(CREATE_ATTENDANCE_TABLE);
         Log.i(LOGTAG, "Table has been created");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_ARC);
+        db.execSQL("DROP TABLE IF EXISTS" + CREATE_ATTENDANCE_TABLE);
         onCreate(db);
     }
 }
