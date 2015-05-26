@@ -63,7 +63,9 @@
         android:layout_alignStart="@+id/edittxtSubjectCode"
         android:layout_marginTop="20dp"
         android:textOn="Lecture"
-        android:textOff="Lab"/>
+        android:textOff="Lab"
+        android:layout_alignRight="@+id/btnStartRegistration"
+        android:layout_alignEnd="@+id/btnStartRegistration" />
 
     <Button
         android:layout_width="wrap_content"
@@ -71,9 +73,11 @@
         android:text="Start Registration"
         android:id="@+id/btnStartRegistration"
         android:onClick="startRegistration"
-        android:layout_alignTop="@+id/toggleButton"
-        android:layout_alignRight="@+id/spnCodeCourse"
-        android:layout_alignEnd="@+id/spnCodeCourse" />
+        android:layout_below="@+id/toggleButton"
+        android:layout_alignLeft="@+id/edittxtRoomNumber"
+        android:layout_alignStart="@+id/edittxtRoomNumber"
+        android:layout_alignRight="@+id/edittxtRoomNumber"
+        android:layout_alignEnd="@+id/edittxtRoomNumber" />
 
 
 

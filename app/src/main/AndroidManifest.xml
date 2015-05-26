@@ -49,6 +49,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Option"
+            android:label="Options">
+            <intent-filter>
+                <action android:name="com.tsuyogbasnet.arc.Option"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue Registration"
+        android:id="@+id/bContinueRegistration"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manual Registration"
+        android:id="@+id/bManualRegistration"
+        android:layout_below="@+id/bContinueRegistration"
+        android:layout_alignLeft="@+id/bContinueRegistration"
+        android:layout_alignStart="@+id/bContinueRegistration"
+        android:layout_alignRight="@+id/bContinueRegistration"
+        android:layout_alignEnd="@+id/bContinueRegistration" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload to Server"
+        android:id="@+id/bUploadtoServer"
+        android:layout_below="@+id/bManualRegistration"
+        android:layout_alignLeft="@+id/bManualRegistration"
+        android:layout_alignStart="@+id/bManualRegistration"
+        android:layout_alignRight="@+id/bManualRegistration"
+        android:layout_alignEnd="@+id/bManualRegistration" />
+</RelativeLayout>

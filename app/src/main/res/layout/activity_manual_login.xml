@@ -44,7 +44,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:hint="Password" />
+        android:hint="App Code" />
 
     <Button
         android:layout_width="wrap_content"
@@ -54,15 +54,18 @@
         android:layout_below="@+id/editTxtPassword"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/editTxtPassword"
+        android:layout_alignStart="@+id/editTxtPassword" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
         android:id="@+id/btnBack"
-        android:layout_alignTop="@+id/btnLogin"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_marginRight="10dp"
-        android:layout_alignEnd="@+id/textView3" />
+        android:layout_below="@+id/btnLogin"
+        android:layout_alignLeft="@+id/btnLogin"
+        android:layout_alignStart="@+id/btnLogin"
+        android:layout_alignRight="@+id/editTxtPassword"
+        android:layout_alignEnd="@+id/editTxtPassword" />
 </RelativeLayout>

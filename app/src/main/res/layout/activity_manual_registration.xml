@@ -36,6 +36,7 @@
         android:layout_alignRight="@+id/edittxtStudentId"
         android:layout_alignEnd="@+id/edittxtStudentId"
         android:layout_marginTop="30dp"
-        android:onClick="manualRegistration"/>
+        android:layout_alignLeft="@+id/edittxtStudentId"
+        android:layout_alignStart="@+id/edittxtStudentId" />
 
 </RelativeLayout>

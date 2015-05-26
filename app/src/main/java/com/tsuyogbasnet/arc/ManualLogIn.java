@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.tsuyogbasnet.Utils.UIHelper;
 
@@ -13,6 +14,7 @@ import com.tsuyogbasnet.Utils.UIHelper;
  */
 public class ManualLogIn extends ActionBarActivity {
     public static String tutorId;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,14 @@ public class ManualLogIn extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             makeTutorId();
-            Intent intent = new Intent(ManualLogIn.this, SetupVariables.class);
-            startActivity(intent);
+            getPassword();
+            if (!tutorId.equals("") && !password.equals("")) {
+                //TODO validate user from web using Http
+                Intent intent = new Intent(ManualLogIn.this, SetupVariables.class);
+                startActivity(intent);
+            }else {
+               Toast.makeText(getBaseContext(),"Please provide LogIn Credentials",Toast.LENGTH_LONG).show();
+            }
         }
     };
     View.OnClickListener rollBack = new View.OnClickListener() {
@@ -42,6 +50,7 @@ public class ManualLogIn extends ActionBarActivity {
     private void makeTutorId(){
         tutorId= UIHelper.getText(this,R.id.editTxtId);
     }
+    private void getPassword(){password=UIHelper.getText(this,R.id.editTxtPassword);}
 
 
 

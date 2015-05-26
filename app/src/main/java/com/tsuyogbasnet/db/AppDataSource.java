@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.View;
 
 import com.tsuyogbasnet.models.Attendance;
 
@@ -49,7 +50,7 @@ public class AppDataSource {
         values.put(AppDbOpenHelper.COLUMN_DATE, attendance.getDate());
         values.put(AppDbOpenHelper.COLUMN_TYPE, attendance.getType());
 
-        Long insertId = database.insertOrThrow(AppDbOpenHelper.TABLE_ARC,null,values);
+        Long insertId = database.insert(AppDbOpenHelper.TABLE_ARC,null,values);
         attendance.setAttendanceId(insertId);
 
         return attendance;

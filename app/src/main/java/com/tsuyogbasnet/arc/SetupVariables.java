@@ -71,7 +71,6 @@ public class SetupVariables extends ActionBarActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         date = dateFormat.format(calendar.getTime());
         if (!subjectCode.equals("") && !roomCode.equals("") && !programmeCode.equals("----- Please Choose Course Code -----")){
-            //Log.i(TAG,type);
             startActivity(new Intent(SetupVariables.this, CollectRegister.class));
         }
         else {
