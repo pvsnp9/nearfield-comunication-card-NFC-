@@ -1,46 +1,79 @@
 package com.tsuyogbasnet.arc;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
+import android.nfc.tech.IsoDep;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcA;
+import android.nfc.tech.NfcB;
+import android.nfc.tech.NfcF;
+import android.nfc.tech.NfcV;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tsuyogbasnet.Utils.NfcHelper;
 import com.tsuyogbasnet.db.AppDataSource;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    NfcAdapter nfcAdapter;
     private AlertDialog.Builder dlgBuilder;
     //just for demo, delete while using DB
-    private final String TUTORID="2144429";
+    public static final String TUTORID="244816BF";
     private String inputCode;
     private String inputTutorId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-       // nfcAdapter.enableForegroundDispatch(this);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        // creating intent receiver for NFC events:
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(NfcAdapter.ACTION_TAG_DISCOVERED);
+        filter.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        filter.addAction(NfcAdapter.ACTION_TECH_DISCOVERED);
+        // enabling foreground dispatch for getting intent from NFC event:
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{filter}, NfcHelper.techList);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getAction().equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
+                if (NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID)).equals(TUTORID)){
+                    startActivity(new Intent(MainActivity.this,SetupVariables.class));
+                }else {
+                    Toast.makeText(getBaseContext(), "You are not recognized as Tutor in this system", Toast.LENGTH_LONG).show();
+                }
+        }
     }
 
     @Override
@@ -58,9 +91,6 @@ public class MainActivity extends ActionBarActivity {
         switch (item.getItemId()){
             case R.id.login:
                 prepDialog();
-                //Intent intent = new Intent(MainActivity.this,com.tsuyogbasnet.arc.ManualLogIn.class);
-                //startActivity(intent);
-
         }
         int id = item.getItemId();
 
@@ -71,6 +101,7 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void prepDialog(){
         dlgBuilder = new AlertDialog.Builder(this);
 
@@ -82,11 +113,11 @@ public class MainActivity extends ActionBarActivity {
 
         final EditText eGetTutorId = new EditText(this);
         eGetTutorId.setHint("Tutor ID");
-        //eGetTutorId.setInputType(DEFAULT_KEYS_DIALER);
+        eGetTutorId.setInputType(InputType.TYPE_CLASS_NUMBER);
         layout.addView(eGetTutorId);
         final EditText eGetCode = new EditText(this);
         eGetCode.setHint("Enter Code");
-        //eGetCode.setInputType(eGetCode.TYPE_CLASS_TEXT);
+        eGetCode.setInputType(InputType.TYPE_CLASS_NUMBER);
         layout.addView(eGetCode);
 
         dlgBuilder.setView(layout);
@@ -113,7 +144,6 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
                 AlertDialog dlgDismiss = dlgBuilder.create();
                 dlgDismiss.dismiss();
-                //startActivity(new Intent(CollectRegister.this, CollectRegister.class));
             }
         });
         AlertDialog dlgLogIn = dlgBuilder.create();

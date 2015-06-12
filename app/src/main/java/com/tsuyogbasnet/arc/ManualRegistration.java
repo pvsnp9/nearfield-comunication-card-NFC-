@@ -27,7 +27,7 @@ public class ManualRegistration extends ActionBarActivity {
     SQLiteOpenHelper databaseHelper;
     SQLiteDatabase database;
     AppDataSource dataSource;
-    private List<String> manualRegistered;
+    private List<String> manualRegistered; /// created to display manually registered students.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public class ManualRegistration extends ActionBarActivity {
 //    }
     public void createAttendance(Attendance attendance){
         attendance.setStudentId(UIHelper.getText(this,R.id.edittxtStudentId));
-        manualRegistered.add(attendance.getStudentId());
+        //manualRegistered.add(attendance.getStudentId());
         attendance.setTutorId(ManualLogIn.tutorId);
         attendance.setProgrammeCode(SetupVariables.programmeCode);
         attendance.setSubjectCode(SetupVariables.subjectCode);
