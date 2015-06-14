@@ -107,6 +107,17 @@ public class AppDataSource {
         }
         return attendances;
     }
+    //to check whether ID is registered or not.
+    public boolean isRegistered(String filter){
+
+        Cursor cursor = database.query(AppDbOpenHelper.TABLE_ARC, attendanceStudentId,filter,null,null,null,null);
+        if (cursor.getCount()>0){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
     public boolean endAndUpload (){
         int result = database.delete(AppDbOpenHelper.TABLE_ARC,null,null);
         return (result >= 1);

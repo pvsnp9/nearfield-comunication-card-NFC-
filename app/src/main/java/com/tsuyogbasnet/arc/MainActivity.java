@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.MifareClassic;
@@ -18,6 +20,7 @@ import android.nfc.tech.NfcV;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -27,6 +30,9 @@ import android.widget.Toast;
 
 import com.tsuyogbasnet.Utils.NfcHelper;
 import com.tsuyogbasnet.db.AppDataSource;
+import com.tsuyogbasnet.db.AppDbOpenHelper;
+import com.tsuyogbasnet.db.MapTutorDataSource;
+import com.tsuyogbasnet.models.MapTutor;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,10 +43,20 @@ public class MainActivity extends ActionBarActivity {
     private String inputCode;
     private String inputTutorId;
 
+    //erase when its done
+    SQLiteOpenHelper databaseHelper;
+    SQLiteDatabase database;
+    MapTutorDataSource mapTutorDataSource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        databaseHelper = new AppDbOpenHelper(this);
+        database = databaseHelper.getWritableDatabase();
+        mapTutorDataSource = new MapTutorDataSource(this);
+        //createTempTutor();
     }
 
     @Override
@@ -68,8 +84,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getAction().equals(NfcAdapter.ACTION_TAG_DISCOVERED)) {
-                if (NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID)).equals(TUTORID)){
+            String tagId = NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID));
+                if (mapTutorDataSource.validateTutorByTag(tagId)){
                     startActivity(new Intent(MainActivity.this,SetupVariables.class));
+
                 }else {
                     Toast.makeText(getBaseContext(), "You are not recognized as Tutor in this system", Toast.LENGTH_LONG).show();
                 }
@@ -149,5 +167,11 @@ public class MainActivity extends ActionBarActivity {
         AlertDialog dlgLogIn = dlgBuilder.create();
         dlgLogIn.show();
 
+    }
+    public void createTempTutor(){
+        MapTutor tutor = new MapTutor();
+        tutor.setTagId("244816BF");
+        tutor.setTutorId("2144429");
+        mapTutorDataSource.createTutor(tutor);
     }
 }

@@ -32,6 +32,12 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_TYPE="type";
 
+    //creating tutor map table
+    public static final String TABLE_MAP_TUTOR ="maptutor";
+    public static final String COLUMN_MAP_TUTOR_ID = "Id";
+    public static final String COLUMN_MAP_TUTOR_TAG_ID="tagId";
+    public static final String COLUMN_MAP_TUTOR_TUTOR_ID="tutorId";
+
     private static final String CREATE_ATTENDANCE_TABLE =
             "CREATE TABLE " +TABLE_ARC + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_STUDENT_ID + " TEXT,"+
@@ -42,7 +48,10 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
                     COLUMN_DATE + " TEXT,"+
                     COLUMN_TYPE +" TEXT" +
                     ")";
-
+    private static final String CREATE_MAP_TUTOR_TABLE=
+            "CREATE TABLE " +TABLE_MAP_TUTOR + "("+COLUMN_MAP_TUTOR_ID+"INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    COLUMN_MAP_TUTOR_TAG_ID +"TEXT,"+
+                    COLUMN_MAP_TUTOR_TUTOR_ID +"TEXT"+")";
     //String name, SQLiteDatabase.CursorFactory factory, int version :: THESE ARE taken out from parameter because
     //these are defined inside this class as a CONST
     public AppDbOpenHelper(Context context) {
@@ -53,6 +62,7 @@ public class AppDbOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //executing command to create a table in app, receiving db instance.
         db.execSQL(CREATE_ATTENDANCE_TABLE);
+        db.execSQL(CREATE_MAP_TUTOR_TABLE);
         Log.i(LOGTAG, "Table has been created");
     }
 

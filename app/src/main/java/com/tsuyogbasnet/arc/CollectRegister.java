@@ -133,9 +133,13 @@ public class CollectRegister extends ActionBarActivity {
             } else {
                 this.studentID = NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID));
                 dataSource.open();
-                createAttendance();
-                Toast.makeText(this, "Attendance has been created with" + this.studentID + "Tag Number", Toast.LENGTH_LONG).show();
-                 attendances = dataSource.findAllAttendance();
+                if (!dataSource.isRegistered("studentId ='"+this.studentID+"'")){
+                    createAttendance();
+                    Toast.makeText(this, "Attendance has been created with" + this.studentID + "Tag Number", Toast.LENGTH_LONG).show();
+                    attendances = dataSource.findAllAttendance();
+                }else {
+                    Toast.makeText(this, "You have already Registered", Toast.LENGTH_SHORT).show();
+                }
                 //instantiating inner class SimpleListADapter
                 ArrayAdapter<Attendance> arrayAdapter = new SimpleListADapter();
                 //finding listview in main view.

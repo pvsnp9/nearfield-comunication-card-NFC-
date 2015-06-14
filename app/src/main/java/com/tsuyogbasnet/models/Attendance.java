@@ -32,11 +32,4 @@ public class Attendance {
     public String getDate(){ return this.date;}
     public String getType(){return this.type;}
 
-    public static boolean createAttendance (Attendance attendance){
-
-
-        return true;
-    }
-
-
 }
