@@ -57,7 +57,7 @@ public class ManualRegistration extends ActionBarActivity {
     public void createAttendance(Attendance attendance){
         attendance.setStudentId(UIHelper.getText(this,R.id.edittxtStudentId));
         //manualRegistered.add(attendance.getStudentId());
-        attendance.setTutorId(ManualLogIn.tutorId);
+        attendance.setTutorId(MainActivity.UNIVERSAL_TUTOR_ID);
         attendance.setProgrammeCode(SetupVariables.programmeCode);
         attendance.setSubjectCode(SetupVariables.subjectCode);
         attendance.setRoomCode(SetupVariables.roomCode);

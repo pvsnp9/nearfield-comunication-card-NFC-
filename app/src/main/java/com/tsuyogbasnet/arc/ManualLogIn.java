@@ -1,6 +1,7 @@
 package com.tsuyogbasnet.arc;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.tsuyogbasnet.Utils.UIHelper;
+import com.tsuyogbasnet.db.AppDataSource;
+import com.tsuyogbasnet.db.AppDbOpenHelper;
 
 /**
  * Created by tsuyogbasnet on 22/04/15.
@@ -15,9 +18,14 @@ import com.tsuyogbasnet.Utils.UIHelper;
 public class ManualLogIn extends ActionBarActivity {
     public static String tutorId;
     private String password;
+    SQLiteOpenHelper databaseHelper;
+    AppDataSource appDataSource;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        databaseHelper = new AppDbOpenHelper(this);
+        appDataSource=new AppDataSource(this);
 
         setContentView(R.layout.activity_manual_login);
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -32,7 +40,8 @@ public class ManualLogIn extends ActionBarActivity {
             makeTutorId();
             getPassword();
             if (!tutorId.equals("") && !password.equals("")) {
-                //TODO validate user from web using Http
+                appDataSource.open();
+
                 Intent intent = new Intent(ManualLogIn.this, SetupVariables.class);
                 startActivity(intent);
             }else {

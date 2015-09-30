@@ -10,11 +10,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,17 +29,26 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tsuyogbasnet.Utils.ListFilter;
 import com.tsuyogbasnet.Utils.NfcHelper;
 import com.tsuyogbasnet.Utils.UIHelper;
 import com.tsuyogbasnet.db.AppDataSource;
 import com.tsuyogbasnet.db.AppDbOpenHelper;
+import com.tsuyogbasnet.db.MapStudentDataSource;
+import com.tsuyogbasnet.httpconnections.HttpManager;
 import com.tsuyogbasnet.models.Attendance;
+import com.tsuyogbasnet.models.MapStudents;
+import com.tsuyogbasnet.models.SetupVar;
+import com.tsuyogbasnet.parsers.MapStudentJsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,31 +58,57 @@ import java.util.List;
  */
 public class CollectRegister extends ActionBarActivity {
     //following List is defined here to populate list view from inner class
+    public static List<MapStudents> mapStudentses = new ArrayList<MapStudents>();
     private List<Attendance> attendances = new ArrayList<Attendance>();
+
+    private AlertDialog.Builder dlgBuilder;
+    private String displayFlag ="";
 
     SQLiteOpenHelper databaseHelper;
     SQLiteDatabase database;
     AppDataSource dataSource;
+    MapStudentDataSource mapStudentDataSource;
 
-    private String studentID;
-    public static final String CODE = "98765";
+    private String studentTagId;
+    private String idNumber;
+    public static final String CODE = "56789";
     private String inputCode;
-    private AlertDialog.Builder dlgBuilder;
+    TextView count;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect_register);
+        //temp data but load from db setupvar.
+        TextView pCode= (TextView)findViewById(R.id.txtprgrm);
+        TextView subject =(TextView) findViewById(R.id.txtSubj);
+        TextView room =(TextView) findViewById(R.id.txtRoom);
+        count = (TextView)findViewById(R.id.txtCount);
+
         databaseHelper = new AppDbOpenHelper(this);
         database = databaseHelper.getWritableDatabase();
         dataSource = new AppDataSource(this);
+        mapStudentDataSource = new MapStudentDataSource(this);
+
+        pCode.setText("Program: "+SetupVariables.programmeCode);
+        subject.setText("Subject: "+SetupVariables.subjectCode);
+        room.setText("Room: "+SetupVariables.roomCode);
+        count.setText("Count: "+dataSource.numberOfAttendances());
+
+        progressBar=(ProgressBar) findViewById(R.id.collectPb);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#B88A00"), PorterDuff.Mode.MULTIPLY);
+        progressBar.setVisibility(View.INVISIBLE);
+        //downloading students data from server via API
+        downloadStudents();
+
     }
 
     private void prepDialog() {
         dlgBuilder = new AlertDialog.Builder(this);
         final EditText eGetCode = new EditText(this);
         eGetCode.setHint("Enter  Tutor Code");
-        eGetCode.setInputType(InputType.TYPE_CLASS_NUMBER);
+        eGetCode.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         dlgBuilder.setTitle("Tutor LogIn");
         dlgBuilder.setView(eGetCode);
         dlgBuilder.setPositiveButton("GO", new DialogInterface.OnClickListener() {
@@ -131,15 +172,28 @@ public class CollectRegister extends ActionBarActivity {
             if (NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID)).equals(MainActivity.TUTORID)) {
                 startActivity(new Intent(CollectRegister.this, Option.class));
             } else {
-                this.studentID = NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID));
+                this.studentTagId = NfcHelper.ByteArrayToHexString(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID));
                 dataSource.open();
-                if (!dataSource.isRegistered("studentId ='"+this.studentID+"'")){
-                    createAttendance();
-                    Toast.makeText(this, "Attendance has been created with" + this.studentID + "Tag Number", Toast.LENGTH_LONG).show();
-                    attendances = dataSource.findAllAttendance();
+                //validating students
+                String findStudent=ListFilter.findStudent(mapStudentses,studentTagId);
+                if (findStudent !=null){
+                    idNumber=findStudent;
+                    //stopping duplicate registration
+                    if (!dataSource.isRegistered("studentId ='"+idNumber+"'")){
+                        displayFlag="SUCCESS";
+                        createAttendance();
+                        notifyUser();
+                        attendances = dataSource.findAllAttendance();
+                        count.setText("Count: "+dataSource.numberOfAttendances());
+                    }else {
+                        displayFlag="FAIL";
+                        notifyUser();
+                    }
                 }else {
-                    Toast.makeText(this, "You have already Registered", Toast.LENGTH_SHORT).show();
+                    displayFlag="UNKNOWN";
+                    notifyUser();
                 }
+
                 //instantiating inner class SimpleListADapter
                 ArrayAdapter<Attendance> arrayAdapter = new SimpleListADapter();
                 //finding listview in main view.
@@ -152,8 +206,8 @@ public class CollectRegister extends ActionBarActivity {
 
     public void createAttendance() {
         Attendance attendance = new Attendance();
-        attendance.setStudentId(this.studentID);
-        attendance.setTutorId(ManualLogIn.tutorId);
+        attendance.setStudentId(this.idNumber);
+        attendance.setTutorId(MainActivity.UNIVERSAL_TUTOR_ID);
         attendance.setProgrammeCode(SetupVariables.programmeCode);
         attendance.setSubjectCode(SetupVariables.subjectCode);
         attendance.setRoomCode(SetupVariables.roomCode);
@@ -162,6 +216,25 @@ public class CollectRegister extends ActionBarActivity {
         attendance = dataSource.create(attendance);
         //Log.i(TAG,attendance.getStudentId()+"/"+attendance.getTutorId()+"/"+attendance.getProgrammeCode()+"/"+attendance.getSubjectCode()+"/"+attendance.getRoomCode()+"/"+attendance.getDate()+"/"+attendance.getType());
         //Toast.makeText(this, "Attendance has been created with" +this.studentID +"Tag Number",Toast.LENGTH_LONG).show();
+    }
+
+    private void downloadStudents(){
+        if (isOnline()){
+            requestStudentData("http://virtual.weltec.ac.nz/arc/api/mapstudentId");
+        }else {
+            Toast.makeText(this, "Network is not available, Please try again making your device online", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void requestStudentData(String uri){
+        CollectTask collectTask = new CollectTask();
+        collectTask.execute(uri);
+    }
+    protected boolean isOnline(){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
+            return true;
+        }else {return false;}
     }
 
     @Override
@@ -182,7 +255,44 @@ public class CollectRegister extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-/// creating list view to populate id
+    private void notifyUser(){
+        dlgBuilder = new AlertDialog.Builder(this);
+        String  title="Notification";
+        String message="";
+        ImageView imageView = new ImageView(this);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        if (displayFlag.equals("SUCCESS")){
+            message="Success";
+            imageView.setImageResource(R.drawable.tick);
+        }else if (displayFlag.equals("UNKNOWN")){
+            message="Unknown Card !!";
+            imageView.setImageResource(R.drawable.unknown);
+        }else if (displayFlag.equals("FAIL")){
+            message="You have already registered";
+            imageView.setImageResource(R.drawable.warning);
+        }
+
+        dlgBuilder.setTitle(title);
+        dlgBuilder.setMessage(message);
+
+        layout.addView(imageView);
+        dlgBuilder.setView(layout);
+        dlgBuilder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog dlgDismiss = dlgBuilder.create();
+                dlgDismiss.dismiss();
+            }
+        });
+        AlertDialog dlgLogIn = dlgBuilder.create();
+        dlgLogIn.show();
+
+    }
+
+  /// creating list view to populate id
   private class SimpleListADapter extends ArrayAdapter<Attendance> {
 
     public SimpleListADapter() {
@@ -202,35 +312,33 @@ public class CollectRegister extends ActionBarActivity {
         return itemView;
     }
 }
+
+  private class CollectTask extends AsyncTask<String, String, String >{
+      @Override
+      protected void onPreExecute() {
+          super.onPreExecute();
+          progressBar.setVisibility(View.VISIBLE);
+      }
+
+      @Override
+      protected String doInBackground(String... params) {
+          String content = HttpManager.getData(params[0]);
+          return content;
+      }
+
+      @Override
+      protected void onPostExecute(String result) {
+          if (result != null){
+              mapStudentses = MapStudentJsonParser.ParseStudents(result);
+              progressBar.setVisibility(View.INVISIBLE);
+          }else {
+              progressBar.setVisibility(View.INVISIBLE);
+              Toast.makeText(getBaseContext(),"Data not Found, Check Network Status",Toast.LENGTH_LONG).show();
+          }
+      }
+  }
 }
 
-
-//    private void prepPopupWindow(){
-//        try {
-//            LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-//            View popupView = inflater.inflate(R.layout.activity_popup_manual_registration,null);
-//            final PopupWindow popupWindow = new PopupWindow(popupView);
-//
-//            Button dismiss =(Button)popupView.findViewById(R.id.bDismiss);
-//            Button manualRegLogin = (Button)popupView.findViewById(R.id.bManualRegLogin);
-//
-//            dismiss.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    popupWindow.dismiss();
-//                }
-//            });
-//            manualRegLogin.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(getBaseContext(), "Check code here", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//            popupWindow.showAsDropDown(bManualRegLogin);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
 
 
 
